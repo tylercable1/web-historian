@@ -9,11 +9,13 @@ var _ = require('underscore');
  * customize it in any way you wish.
  */
 
-exports.paths = {
+let paths = {
   siteAssets: path.join(__dirname, '../web/public'),
   archivedSites: path.join(__dirname, '../archives/sites'),
   list: path.join(__dirname, '../archives/sites.txt')
 };
+
+exports.paths = paths;
 
 // Used for stubbing paths for tests, do not modify
 exports.initialize = function(pathsObj) {
@@ -29,6 +31,13 @@ exports.readListOfUrls = function(callback) {
 };
 
 exports.isUrlInList = function(url, callback) {
+  fs.readFile(paths.list, function(err, data) {
+    if (err) {
+      console.log('Error!: ', err);
+      throw err;
+    }
+    console.log('data: ', data.toString('utf8'));
+  });
 };
 
 exports.addUrlToList = function(url, callback) {
