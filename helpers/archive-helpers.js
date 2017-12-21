@@ -45,7 +45,6 @@ let readListOfUrls = function(url, callback) {
 };
 
 let addUrlToList = function(url, callback) {
-  console.log('made it to addUrlToList');
   fs.appendFile(paths.list, url + ' ', (err) => {
     if (err) {
       throw err;
@@ -54,13 +53,19 @@ let addUrlToList = function(url, callback) {
 };
 
 let isUrlInList = function(url, dataArray) {
-  console.log('made it to isUrlInList!');
   if (!dataArray.includes(url)) {
     addUrlToList(url);
   }
 };
 
 let isUrlArchived = function(url, callback) {
+  fs.readdir(paths.archivedSites, function(err, files) {
+    if (files.includes(url)) {
+// serve it up
+    } else {
+      readListOfUrls(url, isUrlInList);
+    }
+  });  
 };
 
 let downloadUrls = function(urls) {

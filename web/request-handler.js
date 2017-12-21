@@ -2,6 +2,8 @@ var path = require('path');
 var archive = require('../helpers/archive-helpers');
 var fs = require('fs');
 var httpHelpers = require('./http-helpers.js');
+var request = require('request');
+var htmlFetcher = require('./../workers/htmlfetcher.js');
 // require more modules/folders here!
 
 let parseFormEncoding = function (string) {
@@ -25,16 +27,26 @@ exports.handleRequest = function (req, res) {
 
   req.on('end', () => {
     var message = parseFormEncoding(body);
+    // console.log(message);
+    httpHelpers.serveAssets(res, 'index');
     if ('url' in message) {
-      archive.readListOfUrls(message.url, archive.isUrlInList);
+      archive.isUrlArchived(message.url);
     } else {
       fileToServe = 'index';
+
     }
 
   });
 
   
-  httpHelpers.serveAssets(res, fileToServe);
+
   // res.end(archive.paths.list);
+
+  
+
 };
+
+//HTML page sends post request
+//When index.html is to client, it sends back two more requests for css and favicon
+//Needs to handle GET vs. POST requests as well as different url's.
 

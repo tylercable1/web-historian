@@ -18,10 +18,6 @@ exports.serveAssets = function(res, asset, callback) {
   // css, or anything that doesn't change often.)
   let fileToServe;
 
-  if (asset === 'index') {
-    fileToServe = __dirname + "/public/index.html";
-  }
-
   
   fs.readFile(fileToServe = __dirname + "/public/index.html", function(err, data) {
     if (err) {
