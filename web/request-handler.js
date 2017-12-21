@@ -24,10 +24,9 @@ exports.handleRequest = function (req, res) {
   });
 
   req.on('end', () => {
-    console.log(parseFormEncoding(body));
     var message = parseFormEncoding(body);
     if ('url' in message) {
-      archive.isUrlInList(message.url);
+      archive.readListOfUrls(message.url, archive.isUrlInList);
     } else {
       fileToServe = 'index';
     }
