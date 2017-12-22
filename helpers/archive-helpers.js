@@ -1,6 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
+var httpHelpers = require('../web/http-helpers.js');
 
 /*
  * You will need to reuse the same paths many times over in the course of this sprint.
@@ -58,12 +59,13 @@ let isUrlInList = function(url, dataArray) {
   }
 };
 
-let isUrlArchived = function(url, callback) {
+let isUrlArchived = function(url, callback, res) {
   fs.readdir(paths.archivedSites, function(err, files) {
-    if (files.includes(url)) {
-// serve it up
+    if (files.includes(url + '.html')) {
+      httpHelpers.serveAssets(res, `${paths.archivedSites}/${url}.html`);
     } else {
       readListOfUrls(url, isUrlInList);
+      httpHelpers.serveAssets(res, paths.siteAssets + '/loading.html');
     }
   });  
 };

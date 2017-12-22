@@ -16,8 +16,7 @@ let parseFormEncoding = function (string) {
 };
 
 exports.handleRequest = function (req, res) {
-  let fileToServe;
-
+  console.log(req);
   let body = '';
   req.setEncoding('utf8');
 
@@ -26,15 +25,26 @@ exports.handleRequest = function (req, res) {
   });
 
   req.on('end', () => {
-    var message = parseFormEncoding(body);
-    // console.log(message);
-    httpHelpers.serveAssets(res, 'index');
-    if ('url' in message) {
-      archive.isUrlArchived(message.url);
-    } else {
-      fileToServe = 'index';
 
+    if (req.method === 'GET') {
+      if (req.url === "/") {
+        httpHelpers.serveAssets(res, __dirname + "/public/index.html");
+      } else if (req.url === "/styles.css") {
+        httpHelpers.serveAssets(res, __dirname + "/public/styles.css");
+      } else {
+        //send 404, or something.
+      }
+    } else if (req.method === 'POST') {
+      var message = parseFormEncoding(body);
+      if ('url' in message) {
+        archive.isUrlArchived(message.url, null, res);
+      }
     }
+
+
+    // console.log(message);
+
+ 
 
   });
 
@@ -49,4 +59,10 @@ exports.handleRequest = function (req, res) {
 //HTML page sends post request
 //When index.html is to client, it sends back two more requests for css and favicon
 //Needs to handle GET vs. POST requests as well as different url's.
+
+//if it's a GET request
+  //if url = "/" serve index.html
+  //if url = "/styles.css" serve css
+//if it's a POST request
+  //extract message body and proceed
 

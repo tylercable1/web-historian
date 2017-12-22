@@ -19,7 +19,7 @@ exports.serveAssets = function(res, asset, callback) {
   let fileToServe;
 
   
-  fs.readFile(fileToServe = __dirname + "/public/index.html", function(err, data) {
+  fs.readFile(asset, function(err, data) {
     if (err) {
       console.log('Error: ', err);
       throw err;
