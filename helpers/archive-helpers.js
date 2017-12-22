@@ -70,11 +70,12 @@ let isUrlArchived = function(url, callback, res) {
   });  
 };
 
-let downloadUrls = function(urls) {
-};
+// let downloadUrls = function(urls) {
+//   //calls readListOfUrls, passes htmlFetcher archiveList as callback.
+// };
 
 exports.readListOfUrls = readListOfUrls;
 exports.isUrlInList = isUrlInList;
 exports.addUrlToList = addUrlToList;
 exports.isUrlArchived = isUrlArchived;
-exports.downloadUrls = downloadUrls;
+// exports.downloadUrls = downloadUrls;

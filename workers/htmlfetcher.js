@@ -8,6 +8,8 @@ var archive = require('../helpers/archive-helpers');
 var getHtmlBody = function(url, callback) {
   request('http://' + url, function (error, response, body) {
     if (error) {
+      console.log(error);
+      console.log('url: ', url);
       throw error;
     } else {
       callback(url, body);
@@ -29,6 +31,12 @@ var writeToArchive = function(url, body) {
 var archiveList = function(url, dataArray) {
   dataArray.forEach(function(url) {
     getHtmlBody(url, writeToArchive);
+  });
+  fs.truncate(archive.paths.list, 0, (err) => {
+    if (err) {
+      console.log(err);
+      throw err;
+    }
   });
 };
 

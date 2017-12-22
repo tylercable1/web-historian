@@ -32,7 +32,8 @@ exports.handleRequest = function (req, res) {
       } else if (req.url === "/styles.css") {
         httpHelpers.serveAssets(res, __dirname + "/public/styles.css");
       } else {
-        //send 404, or something.
+        res.writeHead(404, httpHelpers.headers);
+        res.end();
       }
     } else if (req.method === 'POST') {
       var message = parseFormEncoding(body);
